@@ -38,19 +38,17 @@ export default function Layout({ children }: { children: ReactNode }) {
               <NextLink href="/game" passHref legacyBehavior><Button as={Link} colorScheme="teal" variant="ghost">Jeu</Button></NextLink>
               <NextLink href="/history" passHref legacyBehavior><Button as={Link} colorScheme="teal" variant="ghost">Historique</Button></NextLink>
               {/* Bouton Déconnexion visible sur mobile ET desktop */}
-              {isMobile ? (
-                <Button colorScheme="red" variant="solid" onClick={handleLogout}>Déconnexion</Button>
-              ) : (
-                <Menu>
-                  <MenuButton as={Button} colorScheme="gray" variant="outline">
-                    <Avatar size="xs" name={user.username} mr={2} />
-                    {user.username}
-                  </MenuButton>
-                  <MenuList>
-                    <MenuItem onClick={handleLogout} color="red.500">Déconnexion</MenuItem>
-                  </MenuList>
-                </Menu>
-              )}
+              <Button colorScheme="red" variant="solid" onClick={handleLogout}>Déconnexion</Button>
+              {/* Menu utilisateur (avatar, nom) */}
+              <Menu>
+                <MenuButton as={Button} colorScheme="gray" variant="outline">
+                  <Avatar size="xs" name={user.username} mr={2} />
+                  {user.username}
+                </MenuButton>
+                <MenuList>
+                  {/* On peut garder d'autres options ici si besoin */}
+                </MenuList>
+              </Menu>
             </>
           ) : (
             <>
