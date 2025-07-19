@@ -14,8 +14,15 @@ dotenv.config();
 
 const app = express();
 
-// Middleware pour gérer le CORS
-app.use(cors());
+// Configuration CORS pour autoriser le frontend Vercel et localhost
+const corsOptions = {
+  origin: [
+    'https://true-number-app-5bcm.vercel.app',
+    'http://localhost:3000'
+  ],
+  credentials: true
+};
+app.use(cors(corsOptions));
 // Middleware pour parser le JSON
 app.use(express.json());
 
