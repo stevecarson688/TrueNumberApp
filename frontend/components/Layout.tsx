@@ -37,16 +37,20 @@ export default function Layout({ children }: { children: ReactNode }) {
               {/* Liens vers les pages principales */}
               <NextLink href="/game" passHref legacyBehavior><Button as={Link} colorScheme="teal" variant="ghost">Jeu</Button></NextLink>
               <NextLink href="/history" passHref legacyBehavior><Button as={Link} colorScheme="teal" variant="ghost">Historique</Button></NextLink>
-              {/* Menu utilisateur (avatar, déconnexion) */}
-              <Menu>
-                <MenuButton as={Button} colorScheme="gray" variant="outline">
-                  <Avatar size="xs" name={user.username} mr={2} />
-                  {isMobile ? user.username : ''}
-                </MenuButton>
-                <MenuList>
-                  <MenuItem onClick={handleLogout} color="red.500">Déconnexion</MenuItem>
-                </MenuList>
-              </Menu>
+              {/* Bouton Déconnexion visible sur mobile ET desktop */}
+              {isMobile ? (
+                <Button colorScheme="red" variant="solid" onClick={handleLogout}>Déconnexion</Button>
+              ) : (
+                <Menu>
+                  <MenuButton as={Button} colorScheme="gray" variant="outline">
+                    <Avatar size="xs" name={user.username} mr={2} />
+                    {user.username}
+                  </MenuButton>
+                  <MenuList>
+                    <MenuItem onClick={handleLogout} color="red.500">Déconnexion</MenuItem>
+                  </MenuList>
+                </Menu>
+              )}
             </>
           ) : (
             <>
@@ -55,8 +59,10 @@ export default function Layout({ children }: { children: ReactNode }) {
               <NextLink href="/register" passHref legacyBehavior><Button as={Link} colorScheme="teal">Inscription</Button></NextLink>
             </>
           )}
-          {/* Bouton Admin TOUJOURS visible */}
-          <NextLink href="/admin" passHref legacyBehavior><Button as={Link} colorScheme="orange" variant="ghost">Admin</Button></NextLink>
+          {/* Bouton Admin visible uniquement pour les admins */}
+          {user && user.role === 'admin' && (
+            <NextLink href="/admin" passHref legacyBehavior><Button as={Link} colorScheme="orange" variant="ghost">Admin</Button></NextLink>
+          )}
         </Stack>
       </Flex>
       {/* Contenu principal de la page */}

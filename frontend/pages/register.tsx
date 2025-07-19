@@ -14,6 +14,7 @@ export default function Register() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   // Gestion de la soumission du formulaire
@@ -21,6 +22,7 @@ export default function Register() {
     e.preventDefault();
     setError('');
     setSuccess('');
+    setLoading(true);
     try {
       await registerUser({ username, email, password, phone });
       setSuccess('Compte créé avec succès, vous allez être redirigé vers la connexion.');
@@ -30,6 +32,8 @@ export default function Register() {
       }, 1500);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Erreur inconnue');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -57,7 +61,7 @@ export default function Register() {
             </FormControl>
             {error && <Alert status="error"><AlertIcon />{error}</Alert>}
             {success && <Alert status="success"><AlertIcon />{success}</Alert>}
-            <Button type="submit" colorScheme="teal" size="lg" w="full">Créer un compte</Button>
+            <Button type="submit" colorScheme="teal" size="lg" w="full" isLoading={loading} disabled={loading}>Créer un compte</Button>
           </Stack>
         </form>
         <Text mt={4} textAlign="center">

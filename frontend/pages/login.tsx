@@ -12,6 +12,7 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { user } = useAuth();
 
@@ -26,12 +27,15 @@ export default function Login() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setLoading(true);
     try {
       const data = await loginUser({ email, password });
       localStorage.setItem('token', data.token);
       router.replace('/game'); // Utilise replace pour forcer le re-render du Layout
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Erreur inconnue');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -55,7 +59,7 @@ export default function Login() {
               <Input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Votre mot de passe" />
             </FormControl>
             {error && <Alert status="error"><AlertIcon />{error}</Alert>}
-            <Button type="submit" colorScheme="teal" size="lg" w="full">Se connecter</Button>
+            <Button type="submit" colorScheme="teal" size="lg" w="full" isLoading={loading} disabled={loading}>Se connecter</Button>
           </Stack>
         </form>
         <Text mt={4} textAlign="center">

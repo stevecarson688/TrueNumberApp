@@ -44,7 +44,7 @@ export default function ForgotPassword() {
             </FormControl>
             {error && <Alert status="error"><AlertIcon />{error}</Alert>}
             {success && <Alert status="success"><AlertIcon />{success}</Alert>}
-            <Button type="submit" colorScheme="teal" size="lg" w="full" isLoading={loading}>Envoyer le lien</Button>
+            <Button type="submit" colorScheme="teal" size="lg" w="full" isLoading={loading} disabled={loading}>Envoyer le lien</Button>
           </Stack>
         </form>
         <Text mt={4} textAlign="center">
